@@ -1,0 +1,21 @@
+nest new project-name
+npm
+npm run start:dev
+npm install prisma --save -dev
+npx prisma init
+docker run  --name rolamentos-postgres -e POSTGRES_PASSWORD=151088 -p 5438:5432 -d postgres
+docker ps
+npm i --save @nestjs/config
+npm install @prisma/client
+nest generate module prisma
+npx prisma migrate dev --name create_user // (migration)
+npm i --save class-validator class-transformer
+npm install body-parser
+npm install --save @nestjs/jwt
+npm i --save passport passport-jwt @nestjs/jwt @nestjs/passport
+npm install hbs
+npm install dotenv
+npm install handlebars
+npm install --save @nestjs-modules/mailer
+npm i --save-dev @types/nodemailer
+npm i --save @nestjs-modules/mailer nodemailer
