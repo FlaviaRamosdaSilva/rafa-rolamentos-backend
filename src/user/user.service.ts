@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../config/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
@@ -6,8 +7,8 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createUserDto: CreateUserDto) {
-    return this.prisma.user.create({
+  async create(createUserDto: CreateUserDto) {
+    return await this.prisma.user.create({
       data: {
         ...createUserDto,
       },
@@ -38,7 +39,7 @@ export class UserService {
     }
 
     // Hash da nova senha com BCRYPT
-    // const hashedPassword = await bcrypt.hash(updatePasswordDto.newPassword, 10);
+    const hashedPassword = await bcrypt.hash(updatePasswordDto.newPassword, 10);
 
     // Atualize o usuário com a nova senha e remova o recoverToken
     return this.prisma.user.update({
