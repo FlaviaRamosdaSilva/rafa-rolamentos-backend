@@ -19,16 +19,17 @@ model User {
 }
 
 model cliente {
-  id_cliente String @id @default(uuid())
+  id_cliente String   @id @default(uuid())
   nome       String
-  email      String @unique
+  email      String   @unique
   telefone   String
   userId     String // Chave estrangeira (FK)
-  User       User   @relation(fields: [userId], references: [id]) // Relacionamento
+  User       User     @relation(fields: [userId], references: [id]) // Relacionamento
+  pedido     pedido[]
 }
 
 model produto {
-  id_produto         String  @id @default(uuid())
+  id_produto         String          @id @default(uuid())
   codigo_produto     String
   descricao_produto  String
   custo              Decimal
@@ -38,5 +39,32 @@ model produto {
   quantidade_total   Int
   quantidade_minima  Int
   userId             String // Chave estrangeira (FK)
-  User               User    @relation(fields: [userId], references: [id]) // Relacionamento
+  User               User            @relation(fields: [userId], references: [id]) // Relacionamento
+  pedidos            pedidoProduto[] // Relacionamento
+}
+
+model pedido {
+  id_pedido                 String          @id @default(uuid())
+  tipo_cliente              String
+  preco_total               Decimal
+  custo_total               Decimal
+  lucro_bruto               Decimal
+  desconto                  Decimal
+  motivo_desconto           String
+  preco_final               Decimal
+  status_pedido             String
+  quantidade_total_produtos Int
+  clienteId                 String // Chave estrangeira (FK)
+  cliente                   cliente         @relation(fields: [clienteId], references: [id_cliente]) // Relacionamento
+  createdAt                 DateTime        @default(now())
+  produtos                  pedidoProduto[] // Relacionamento com produtos
+}
+
+model pedidoProduto {
+  id_pedido_produto String  @id @default(uuid())
+  pedidoId          String // Chave estrangeira (FK)
+  Pedido            pedido  @relation(fields: [pedidoId], references: [id_pedido])
+  produtoId         String // Chave estrangeira (FK)
+  Produto           produto @relation(fields: [produtoId], references: [id_produto])
+  quantidade        Int // Quantidade do produto no pedido
 }
