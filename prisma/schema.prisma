@@ -29,7 +29,7 @@ model cliente {
 }
 
 model produto {
-  id_produto         String          @id @default(uuid())
+  id_produto         String               @id @default(uuid())
   codigo_produto     String
   descricao_produto  String
   custo              Decimal
@@ -39,8 +39,9 @@ model produto {
   quantidade_total   Int
   quantidade_minima  Int
   userId             String // Chave estrangeira (FK)
-  User               User            @relation(fields: [userId], references: [id]) // Relacionamento
+  User               User                 @relation(fields: [userId], references: [id]) // Relacionamento
   pedidos            pedidoProduto[] // Relacionamento
+  Compras            entradaProdutoItem[]
 }
 
 model pedido {
@@ -67,4 +68,23 @@ model pedidoProduto {
   produtoId         String // Chave estrangeira (FK)
   Produto           produto @relation(fields: [produtoId], references: [id_produto])
   quantidade        Int // Quantidade do produto no pedido
+}
+
+model compras {
+  id_compras         String               @id @default(uuid())
+  fornecedor         String
+  valor_total_compra Decimal
+  status_compra      String
+  createdAt          DateTime             @default(now())
+  itens              entradaProdutoItem[]
+}
+
+model entradaProdutoItem {
+  id_item_entrada String  @id @default(uuid())
+  comprasId       String // Chave estrangeira (FK)
+  Compras         compras @relation(fields: [comprasId], references: [id_compras])
+  produtoId       String // Chave estrangeira (FK)
+  Produto         produto @relation(fields: [produtoId], references: [id_produto])
+  custo           Decimal // custo do produto na entrada
+  quantidade      Int // Quantidade do produto na entrada
 }
