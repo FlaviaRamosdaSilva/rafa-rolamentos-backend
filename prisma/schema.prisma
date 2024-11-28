@@ -8,10 +8,35 @@ datasource db {
 }
 
 model User {
-  id             String  @id @default(uuid())
-  email          String  @unique
+  id             String    @id @default(uuid())
+  email          String    @unique
   senha          String
   tipo_chave_pix String
   chave_pix      String
   recoverToken   String?
+  cliente        cliente[]
+  produto        produto[]
+}
+
+model cliente {
+  id_cliente String @id @default(uuid())
+  nome       String
+  email      String @unique
+  telefone   String
+  userId     String // Chave estrangeira (FK)
+  User       User   @relation(fields: [userId], references: [id]) // Relacionamento
+}
+
+model produto {
+  id_produto         String  @id @default(uuid())
+  codigo_produto     String
+  descricao_produto  String
+  custo              Decimal
+  preco_nachi        Decimal
+  preco_distribuidor Decimal
+  preco_lojista      Decimal
+  quantidade_total   Int
+  quantidade_minima  Int
+  userId             String // Chave estrangeira (FK)
+  User               User    @relation(fields: [userId], references: [id]) // Relacionamento
 }

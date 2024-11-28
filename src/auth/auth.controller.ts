@@ -10,7 +10,7 @@ export class AuthController {
 
   @Post('login')
   signIn(@Body(ValidationPipe) signInDto: signInDto) {
-    return this.authService.signIn(signInDto.email, signInDto.password);
+    return this.authService.signIn(signInDto.email, signInDto.senha);
   }
 
   @Post('/signup')

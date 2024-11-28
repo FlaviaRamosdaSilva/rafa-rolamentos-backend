@@ -19,3 +19,4 @@ npm install handlebars
 npm install --save @nestjs-modules/mailer
 npm i --save-dev @types/nodemailer
 npm i --save @nestjs-modules/mailer nodemailer
+npm install @prisma/client decimal.js (para usar numero decimal)
