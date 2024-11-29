@@ -41,7 +41,7 @@ model produto {
   userId             String // Chave estrangeira (FK)
   User               User                 @relation(fields: [userId], references: [id]) // Relacionamento
   pedidos            pedidoProduto[] // Relacionamento
-  Compras            entradaProdutoItem[]
+  Compras            entradaProdutoItem[] // Relacionamento
 }
 
 model pedido {
