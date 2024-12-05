@@ -1,12 +1,10 @@
 import {
-  IsDecimal,
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsString,
-  Matches,
   MinLength,
 } from 'class-validator';
-import Decimal from 'decimal.js';
 
 export class CreateProdutoDto {
   @IsNotEmpty({ message: 'Insira um código para este produto' })
@@ -19,39 +17,23 @@ export class CreateProdutoDto {
   descricao_produto: string;
 
   @IsNotEmpty({ message: 'Custo do item é obrigatório' })
-  @IsDecimal()
-  @Matches(/^\d+(\.\d{1,2})?$/, {
-    message: 'O custo deve ter no máximo 2 casas decimais',
-  })
-  custo: Decimal;
-
-  @IsNotEmpty({ message: 'Preço Nachi é obrigatório' })
-  @IsDecimal()
-  @Matches(/^\d+(\.\d{1,2})?$/, {
-    message: 'O custo deve ter no máximo 2 casas decimais',
-  })
-  preco_nachi: Decimal;
+  @IsNumber()
+  custo: number;
 
   @IsNotEmpty({ message: 'Preço distribuidor é obrigatório' })
-  @IsDecimal()
-  @Matches(/^\d+(\.\d{1,2})?$/, {
-    message: 'O custo deve ter no máximo 2 casas decimais',
-  })
-  preco_distribuidor: Decimal;
+  @IsNumber()
+  preco_distribuidor: number;
 
   @IsNotEmpty({ message: 'Preço de Lojista é obrigatório' })
-  @IsDecimal()
-  @Matches(/^\d+(\.\d{1,2})?$/, {
-    message: 'O custo deve ter no máximo 2 casas decimais',
-  })
-  preco_lojista: Decimal;
+  @IsNumber()
+  preco_lojista: number;
 
   @IsNotEmpty({ message: 'Quantidade total é obrigatório' })
-  @IsInt({ message: 'Precisa ser um número inteiro' })
+  @IsInt({ message: 'Quantidade_total precisa ser um número inteiro' })
   quantidade_total: number;
 
   @IsNotEmpty({ message: 'Quantidade mínima é obrigatório' })
-  @IsInt({ message: 'Precisa ser um número inteiro' })
+  @IsInt({ message: 'Quantidade_minima precisa ser um número inteiro' })
   quantidade_minima: number;
 
   @IsString()

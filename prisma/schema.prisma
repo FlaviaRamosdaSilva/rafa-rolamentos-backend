@@ -33,7 +33,6 @@ model produto {
   codigo_produto     String
   descricao_produto  String
   custo              Decimal
-  preco_nachi        Decimal
   preco_distribuidor Decimal
   preco_lojista      Decimal
   quantidade_total   Int

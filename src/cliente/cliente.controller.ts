@@ -5,20 +5,20 @@ import { UpdateClienteDto } from './dto/update-cliente.dto';
 
 @Controller('cliente')
 export class ClienteController {
-  constructor(private readonly clinteService: ClienteService) {}
+  constructor(private readonly clienteService: ClienteService) {}
 
   @Post()
   create(@Body() createClienteDto: CreateClienteDto) {
-    return this.clinteService.create(createClienteDto);
+    return this.clienteService.create(createClienteDto);
   }
 
   @Get()
   findAll() {
-    return this.clinteService.findAll();
+    return this.clienteService.findAll();
   }
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateClienteDto: UpdateClienteDto) {
-    return this.clinteService.updateById(id, updateClienteDto);
+    return this.clienteService.updateById(id, updateClienteDto);
   }
 }

@@ -1,18 +1,5 @@
-import { IsEmail, IsMobilePhone, IsOptional, IsString } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
 
-export class UpdateClienteDto {
-  @IsEmail(
-    { allow_display_name: false, require_tld: true },
-    { message: 'E-mail inválido' },
-  )
-  @IsOptional()
-  email?: string;
+import { CreateClienteDto } from './create-cliente.dto';
 
-  @IsString()
-  @IsOptional()
-  nome?: string;
-
-  @IsMobilePhone('pt-BR', {}, { message: 'Número de telefone inválido' })
-  @IsOptional()
-  telefone?: string;
-}
+export class UpdateClienteDto extends PartialType(CreateClienteDto) {}

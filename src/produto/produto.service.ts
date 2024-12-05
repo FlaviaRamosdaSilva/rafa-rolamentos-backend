@@ -1,26 +1,102 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { PrismaService } from '../config/prisma.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 
 @Injectable()
 export class ProdutoService {
-  create(createProdutoDto: CreateProdutoDto) {
-    return 'This action adds a new produto';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createProdutoDto: CreateProdutoDto) {
+    const {
+      userId,
+      codigo_produto,
+      descricao_produto,
+      custo,
+      preco_distribuidor,
+      preco_lojista,
+      quantidade_total,
+      quantidade_minima,
+    } = createProdutoDto;
+
+    // Verifica se o userID existe
+    const userExists = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!userExists) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
+    // Verifica se já existe um produto com o mesmo código
+    const codigoExist = await this.prisma.produto.findFirst({
+      where: { codigo_produto },
+    });
+
+    if (codigoExist) {
+      throw new BadRequestException('Já existe um produto com esse código');
+    }
+
+    // Cria o Produto
+    return this.prisma.produto.create({
+      data: {
+        codigo_produto,
+        descricao_produto,
+        custo,
+        preco_distribuidor,
+        preco_lojista,
+        quantidade_total,
+        quantidade_minima,
+        userId: userId,
+      },
+    });
+  }
+  //Refatoração da lógica de procurar se o ID do produto existe
+  private async findProdutoById(id: string) {
+    const produto = await this.prisma.produto.findUnique({
+      where: { id_produto: id },
+    });
+
+    if (!produto) {
+      throw new NotFoundException('Produto não encontrado');
+    }
+
+    return produto;
   }
 
-  findAll() {
-    return `This action returns all produto`;
+  //localizar os produtos (GET)
+  async findAll() {
+    return await this.prisma.produto.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} produto`;
+  //Alteração dos produtos
+  async update(id: string, updateProdutoDto: UpdateProdutoDto) {
+    // Verifica se o produto existe
+    await this.findProdutoById(id);
+
+    // Atualiza os dados do produto
+    return this.prisma.produto.update({
+      where: { id_produto: id },
+      data: updateProdutoDto,
+    });
   }
 
-  update(id: number, updateProdutoDto: UpdateProdutoDto) {
-    return `This action updates a #${id} produto`;
-  }
+  //deletar produtos
+  async delete(id: string) {
+    const produtoExist = await this.findProdutoById(id);
 
-  remove(id: number) {
-    return `This action removes a #${id} produto`;
+    // Deleta o produto
+    await this.prisma.produto.delete({
+      where: { id_produto: id },
+    });
+
+    // Retorna a mensagem de sucesso após deleção
+    return {
+      message: `Produto ${produtoExist.descricao_produto} deletado com sucesso`,
+    };
   }
 }
