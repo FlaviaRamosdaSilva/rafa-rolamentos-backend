@@ -73,7 +73,7 @@ model compras {
   id_compras         String               @id @default(uuid())
   fornecedor         String
   valor_total_compra Decimal
-  status_compra      String
+  status_compra      String               @default("pedido iniciado")
   createdAt          DateTime             @default(now())
   itens              entradaProdutoItem[]
 }
@@ -86,4 +86,5 @@ model entradaProdutoItem {
   Produto         produto @relation(fields: [produtoId], references: [id_produto])
   custo           Decimal // custo do produto na entrada
   quantidade      Int // Quantidade do produto na entrada
+  total_item      Decimal // custo * quantidade
 }
