@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { SaidaService } from './saida.service';
+import { PrismaService } from 'src/config/prisma.service';
 import { SaidaController } from './saida.controller';
+import { SaidaService } from './saida.service';
 
 @Module({
   controllers: [SaidaController],
-  providers: [SaidaService],
+  providers: [SaidaService, PrismaService],
 })
 export class SaidaModule {}

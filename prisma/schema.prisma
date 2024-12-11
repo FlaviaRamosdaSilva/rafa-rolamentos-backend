@@ -67,6 +67,8 @@ model pedidoProduto {
   produtoId         String // Chave estrangeira (FK)
   Produto           produto @relation(fields: [produtoId], references: [id_produto])
   quantidade        Int // Quantidade do produto no pedido
+  preco_venda       Decimal // Aqui é o preco que vai gerar conforme a escolha se lojista ou distribuidor
+  total_produto     Decimal // aqui é a qtde vezes o preco_venda
 }
 
 model compras {
