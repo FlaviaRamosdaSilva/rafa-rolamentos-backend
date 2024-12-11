@@ -1,10 +1,6 @@
 import { IsInt, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class EntradaProdutoItemDto {
-  @IsString()
-  @IsNotEmpty({ message: 'ID da compra é obrigatório' })
-  comprasId: string;
-
   @IsNotEmpty({ message: 'Produto ID é obrigatório' })
   @IsString()
   produtoId: string;

@@ -99,4 +99,19 @@ export class ProdutoService {
       message: `Produto ${produtoExist.descricao_produto} deletado com sucesso`,
     };
   }
+
+  //lógica para alteração de estoque com entrada de mercadoria
+  async updateEstoque(id: string, quantidade: number) {
+    const produtoExist = await this.findProdutoById(id);
+    const novoEstoque = produtoExist.quantidade_total + quantidade;
+    // Atualiza o estoque do produto
+    await this.prisma.produto.update({
+      where: { id_produto: id },
+      data: { quantidade_total: novoEstoque },
+    });
+    // Retorna a mensagem de sucesso após alteração de estoque
+    return {
+      message: `Estoque do produto ${produtoExist.descricao_produto} alterado com sucesso`,
+    };
+  }
 }

@@ -3,6 +3,7 @@ import {
   IsArray,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
@@ -13,7 +14,7 @@ export class CreateEntradaDto {
   @IsNotEmpty({ message: 'Fornecedor não pode ser vazio' })
   fornecedor: string;
 
-  @IsNotEmpty({ message: 'Valor total da compra é obrigatório' })
+  @IsOptional()
   @IsNumber()
   valor_total_compra: number;
 
