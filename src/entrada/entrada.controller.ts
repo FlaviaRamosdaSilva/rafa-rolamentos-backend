@@ -17,7 +17,11 @@ export class EntradaController {
     const compraCriada = await this.entradaService.create(createEntradaDto);
     // Aqui atualiza o estoque dos produtos que estão a compra/entrada
     for (const item of createEntradaDto.itens) {
-      await this.produtoService.updateEstoque(item.produtoId, item.quantidade);
+      await this.produtoService.updateEstoque(
+        item.produtoId,
+        item.quantidade,
+        item.custo,
+      );
     }
 
     return {

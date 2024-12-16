@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import Decimal from 'decimal.js';
 import { PrismaService } from '../config/prisma.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
@@ -101,13 +102,35 @@ export class ProdutoService {
   }
 
   //lógica para alteração de estoque com entrada de mercadoria
-  async updateEstoque(id: string, quantidade: number) {
+  async updateEstoque(id: string, quantidade: number, custo: number) {
     const produtoExist = await this.findProdutoById(id);
     const novoEstoque = produtoExist.quantidade_total + quantidade;
-    // Atualiza o estoque do produto
+
+    //transformo o custo que veio em number, para Decimal
+    const custoDecimal = new Decimal(custo);
+
+    // Verifica e atualiza o custo somente se o novo custo for maior que o existente
+    const custoAlterado = custoDecimal.gt(produtoExist.custo);
+    const novoCusto = custoAlterado ? custoDecimal : produtoExist.custo;
+
+    //atualiza os precos de distribuidor e de lojista com base no novo custo
+    const novoPrecoDistribuidor = custoAlterado
+      ? novoCusto.mul(1.25)
+      : produtoExist.preco_distribuidor;
+
+    const novoPrecoLojista = custoAlterado
+      ? novoCusto.mul(1.4)
+      : produtoExist.preco_lojista;
+
+    // Atualiza o estoque do produto com os novos dados
     await this.prisma.produto.update({
       where: { id_produto: id },
-      data: { quantidade_total: novoEstoque },
+      data: {
+        quantidade_total: novoEstoque,
+        custo: novoCusto,
+        preco_distribuidor: novoPrecoDistribuidor,
+        preco_lojista: novoPrecoLojista,
+      },
     });
     // Retorna a mensagem de sucesso após alteração de estoque
     return {
