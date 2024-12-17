@@ -6,6 +6,7 @@ import { CreateSaidaDto } from './dto/create-saida.dto';
 import { PedidoProdutoDto } from './dto/saida-produto.dto';
 
 // Definindo o tipo com o payload esperado
+// Foi preciso para incluir os itens que eu queria que aparecesse n resposta do backend
 type PedidoComProdutos = Prisma.pedidoGetPayload<{
   include: {
     produtos: {

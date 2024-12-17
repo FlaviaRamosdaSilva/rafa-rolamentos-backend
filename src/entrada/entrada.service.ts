@@ -72,7 +72,7 @@ export class EntradaService {
 
     if (!EntradaExist) {
       throw new NotFoundException(
-        'Compra não localizada par aalteração de status.',
+        'Compra não localizada para alteração de status.',
       );
     }
 
