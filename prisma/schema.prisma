@@ -32,6 +32,7 @@ model produto {
   id_produto         String               @id @default(uuid())
   codigo_produto     String
   descricao_produto  String
+  fabricante         String
   custo              Decimal
   preco_distribuidor Decimal
   preco_lojista      Decimal
@@ -41,6 +42,7 @@ model produto {
   User               User                 @relation(fields: [userId], references: [id]) // Relacionamento
   pedidos            pedidoProduto[] // Relacionamento
   Compras            entradaProdutoItem[] // Relacionamento
+  EstoqueLog         estoqueLog[]
 }
 
 model pedido {
@@ -89,4 +91,14 @@ model entradaProdutoItem {
   custo           Decimal // custo do produto na entrada
   quantidade      Int // Quantidade do produto na entrada
   total_item      Decimal // custo * quantidade
+}
+
+model estoqueLog {
+  id         String   @id @default(uuid())
+  produtoId  String // Chave estrangeira (FK)
+  Produto    produto  @relation(fields: [produtoId], references: [id_produto])
+  quantidade Int
+  tipo       String // ENTRADA, SAIDA OU AJUSTE
+  descricao  String?
+  createdAt  DateTime @default(now())
 }

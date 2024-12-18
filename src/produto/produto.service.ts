@@ -17,6 +17,7 @@ export class ProdutoService {
       userId,
       codigo_produto,
       descricao_produto,
+      fabricante,
       custo,
       preco_distribuidor,
       preco_lojista,
@@ -47,6 +48,7 @@ export class ProdutoService {
       data: {
         codigo_produto,
         descricao_produto,
+        fabricante,
         custo,
         preco_distribuidor,
         preco_lojista,
@@ -140,17 +142,31 @@ export class ProdutoService {
 
   async exitEstoque(id: string, quantidade: number) {
     const produtoExist = await this.findProdutoById(id);
-    if (produtoExist.quantidade_total > quantidade) {
+
+    if (produtoExist.quantidade_total >= quantidade) {
       const novoEstoque = produtoExist.quantidade_total - quantidade;
 
-      // Atualiza o estoque do produto com os novos dados
-      await this.prisma.produto.update({
-        where: { id_produto: id },
-        data: {
-          quantidade_total: novoEstoque,
-        },
+      // Executa as operações dentro de uma transação
+      await this.prisma.$transaction(async (prisma) => {
+        // Atualiza o estoque do produto com os novos dados
+        await this.prisma.produto.update({
+          where: { id_produto: id },
+          data: {
+            quantidade_total: novoEstoque,
+          },
+        });
+
+        // Adiciona log de saída
+        await this.prisma.estoqueLog.create({
+          data: {
+            produtoId: id,
+            quantidade,
+            tipo: 'SAIDA',
+            descricao: 'Baixa no estoque por pedido aprovado',
+          },
+        });
       });
-      // Retorna a mensagem de sucesso após alteração de estoque
+
       return {
         message: `Estoque do produto ${produtoExist.descricao_produto} alterado com sucesso`,
       };

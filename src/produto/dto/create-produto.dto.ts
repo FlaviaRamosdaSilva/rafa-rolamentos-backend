@@ -16,6 +16,10 @@ export class CreateProdutoDto {
   @MinLength(10, { message: 'A descrição deve ter no mínimo 10 caracteres' })
   descricao_produto: string;
 
+  @IsNotEmpty({ message: 'insira um fabricante para este produto' })
+  @IsString()
+  fabricante: string;
+
   @IsNotEmpty({ message: 'Custo do item é obrigatório' })
   @IsNumber()
   custo: number;

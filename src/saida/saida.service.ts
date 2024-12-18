@@ -140,4 +140,21 @@ export class SaidaService {
 
     return pedidoFormatado;
   }
+
+  async updateStatus(id: string, status: string) {
+    // Atualiza o status da saída
+    const saida = await this.prisma.pedido.update({
+      where: { id_pedido: id },
+      data: { status_pedido: status },
+      include: {
+        produtos: true, // Inclui os produtos vinculados à saída
+      },
+    });
+
+    if (!saida) {
+      throw new BadRequestException('Pedido não encontrada');
+    }
+
+    return saida;
+  }
 }
