@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 import { PrismaService } from '../config/prisma.service';
@@ -156,5 +160,21 @@ export class SaidaService {
     }
 
     return saida;
+  }
+
+  async findAll() {
+    return await this.prisma.pedido.findMany();
+  }
+
+  async findPedidoById(id: string) {
+    const pedido = await this.prisma.pedido.findUnique({
+      where: { id_pedido: id },
+    });
+
+    if (!pedido) {
+      throw new NotFoundException('Produto não encontrado');
+    }
+
+    return pedido;
   }
 }

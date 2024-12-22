@@ -2,9 +2,10 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   Param,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import { ProdutoService } from '../produto/produto.service';
 import { CreateSaidaDto } from './dto/create-saida.dto';
@@ -21,10 +22,20 @@ export class SaidaController {
   create(@Body() createSaidaDto: CreateSaidaDto) {
     return this.saidaService.create(createSaidaDto);
   }
-  @Put(':id/status')
-  async updateStatus(@Param('id') id: string, @Body('status') status: string) {
+  @Patch(':id')
+  async updateStatus(
+    @Param('id') id: string,
+    @Body('status_pedido') status: string,
+  ) {
     // Valida o status recebido
-    const validStatuses = ['Pendente', 'Aprovado', 'Cancelado'];
+    const validStatuses = [
+      'Pendente',
+      'Aprovado',
+      'Pedido em separação',
+      'Entregue, Aguardando Pagamento',
+      'Pedido Finalizado e Pago',
+      'Cancelado',
+    ];
     if (!validStatuses.includes(status)) {
       throw new BadRequestException(
         `Status inválido. Valores permitidos: ${validStatuses.join(', ')}`,
@@ -45,5 +56,15 @@ export class SaidaController {
       message: `Status da saída ${id} atualizado para ${status} com sucesso.`,
       saida,
     };
+  }
+
+  @Get()
+  findAll() {
+    return this.saidaService.findAll();
+  }
+
+  @Get(':id')
+  findPedidoById(@Param('id') id: string) {
+    return this.saidaService.findPedidoById(id);
   }
 }

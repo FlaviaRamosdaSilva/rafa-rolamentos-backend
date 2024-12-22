@@ -134,6 +134,17 @@ export class ProdutoService {
         preco_lojista: novoPrecoLojista,
       },
     });
+
+    // Adiciona log de entrada
+    await this.prisma.estoqueLog.create({
+      data: {
+        produtoId: id,
+        quantidade,
+        tipo: 'ENTRADA',
+        descricao: 'Entrada no estoque por compra aprovada',
+      },
+    });
+
     // Retorna a mensagem de sucesso após alteração de estoque
     return {
       message: `Estoque do produto ${produtoExist.descricao_produto} alterado com sucesso`,
