@@ -88,6 +88,33 @@ export class ProdutoService {
     });
   }
 
+  async updateStock(id: string, quantidade: number, quantidade_minima) {
+    // Verifica se o produto existe
+    await this.findProdutoById(id);
+
+    // Atualiza os dados do produto
+    await this.prisma.produto.update({
+      where: { id_produto: id },
+      data: {
+        quantidade_total: quantidade,
+        quantidade_minima,
+      },
+    });
+
+    // Adiciona log de entrada
+    await this.prisma.estoqueLog.create({
+      data: {
+        produtoId: id,
+        quantidade,
+        tipo: 'AJUSTE',
+        descricao: 'Ajuste no estoque manualmente',
+      },
+    });
+    return {
+      message: `Estoque do produto alterado com sucesso`,
+    };
+  }
+
   //deletar produtos
   async delete(id: string) {
     const produtoExist = await this.findProdutoById(id);

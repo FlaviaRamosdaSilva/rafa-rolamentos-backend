@@ -8,6 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { CreateProdutoDto } from './dto/create-produto.dto';
+import { UpdateProdutoEstoqueDto } from './dto/update-produto-estoque.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { ProdutoService } from './produto.service';
 
@@ -28,6 +29,19 @@ export class ProdutoController {
   @Put(':id')
   update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
     return this.produtoService.update(id, updateProdutoDto);
+  }
+
+  @Put('/estoque/:id')
+  updateStock(
+    @Param('id') id: string,
+    @Body() updateProdutoEstoqueDto: UpdateProdutoEstoqueDto,
+  ) {
+    const { quantidade_total, quantidade_minima } = updateProdutoEstoqueDto;
+    return this.produtoService.updateStock(
+      id,
+      quantidade_total,
+      quantidade_minima,
+    );
   }
 
   @Delete(':id')
