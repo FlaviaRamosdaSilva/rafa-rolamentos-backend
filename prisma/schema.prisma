@@ -60,6 +60,7 @@ model pedido {
   cliente                   cliente         @relation(fields: [clienteId], references: [id_cliente]) // Relacionamento
   createdAt                 DateTime        @default(now())
   produtos                  pedidoProduto[] // Relacionamento com produtos
+  pedidoLog                 pedidoLog[] // Relacionamento com produtos
 }
 
 model pedidoProduto {
@@ -101,4 +102,14 @@ model estoqueLog {
   tipo       String // ENTRADA, SAIDA OU AJUSTE
   descricao  String?
   createdAt  DateTime @default(now())
+}
+
+model pedidoLog {
+  id              String   @id @default(uuid())
+  pedidoId        String // Chave estrangeira (FK)
+  Pedido          pedido   @relation(fields: [pedidoId], references: [id_pedido])
+  status_anterior String
+  novo_status     String
+  descricao       String?
+  createdAt       DateTime @default(now())
 }

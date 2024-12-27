@@ -212,4 +212,45 @@ export class ProdutoService {
       throw new BadRequestException('Quantidade de estoque insuficiente');
     }
   }
+
+  async returnEstoque(id: string, quantidade: number) {
+    // Valida se o produto existe de fato
+    const produtoExist = await this.findProdutoById(id);
+    if (!produtoExist) {
+      throw new NotFoundException('Produto não encontrado');
+    }
+    // valida se a quantidade é um numero acima de zero
+    if (quantidade <= 0) {
+      throw new BadRequestException(
+        `A quantidade retornada ao estoque deve ser maior que 0.`,
+      );
+    }
+
+    const novoEstoque = produtoExist.quantidade_total + quantidade;
+
+    // Executa as operações dentro de uma transação
+    await this.prisma.$transaction(async (prisma) => {
+      // Atualiza o estoque do produto com os novos dados
+      await this.prisma.produto.update({
+        where: { id_produto: id },
+        data: {
+          quantidade_total: novoEstoque,
+        },
+      });
+
+      // Adiciona log de saída
+      await this.prisma.estoqueLog.create({
+        data: {
+          produtoId: id,
+          quantidade,
+          tipo: 'RETORNO',
+          descricao: 'Retorno ao estoque por pedido cancelado',
+        },
+      });
+    });
+
+    return {
+      message: `Estoque do produto ${produtoExist.descricao_produto} alterado com sucesso`,
+    };
+  }
 }

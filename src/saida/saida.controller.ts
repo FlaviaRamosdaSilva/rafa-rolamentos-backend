@@ -6,9 +6,11 @@ import {
   Param,
   Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ProdutoService } from '../produto/produto.service';
 import { CreateSaidaDto } from './dto/create-saida.dto';
+import { UpdateSaidaDto } from './dto/update-saida.dto';
 import { SaidaService } from './saida.service';
 
 @Controller('saida')
@@ -21,6 +23,11 @@ export class SaidaController {
   @Post()
   create(@Body() createSaidaDto: CreateSaidaDto) {
     return this.saidaService.create(createSaidaDto);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() UpdateSaidaDto: UpdateSaidaDto) {
+    return this.saidaService.updatePedido(id, UpdateSaidaDto);
   }
   @Patch(':id')
   async updateStatus(
@@ -41,7 +48,6 @@ export class SaidaController {
         `Status inválido. Valores permitidos: ${validStatuses.join(', ')}`,
       );
     }
-
     // Atualiza o status no banco de dados
     const saida = await this.saidaService.updateStatus(id, status);
 
@@ -49,9 +55,15 @@ export class SaidaController {
     if (status === 'Aprovado') {
       for (const item of saida.produtos) {
         await this.produtoService.exitEstoque(item.produtoId, item.quantidade);
+      } // Se o status for "Cancelado", realiza o retorno ao estoque
+    } else if (status === 'Cancelado') {
+      for (const item of saida.produtos) {
+        await this.produtoService.returnEstoque(
+          item.produtoId,
+          item.quantidade,
+        );
       }
     }
-
     return {
       message: `Status da saída ${id} atualizado para ${status} com sucesso.`,
       saida,
