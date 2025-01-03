@@ -1,3 +1,4 @@
+import { MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '../auth/constants';
@@ -9,6 +10,7 @@ import { AuthService } from './auth.service';
 @Module({
   imports: [
     UserModule,
+    MailerModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,

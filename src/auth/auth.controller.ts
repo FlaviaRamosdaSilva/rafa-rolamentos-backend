@@ -1,5 +1,4 @@
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
-import { CreateUserDto } from '../user/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { RecoverPasswordDto } from './recover-password.dto';
 import { signInDto } from './signin.dto';
@@ -8,20 +7,23 @@ import { signInDto } from './signin.dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('login')
-  signIn(@Body(ValidationPipe) signInDto: signInDto) {
-    return this.authService.signIn(signInDto.email, signInDto.senha);
-  }
-
-  @Post('/signup')
-  async signUp(
-    @Body(ValidationPipe) data: CreateUserDto,
-  ): Promise<{ message: string }> {
-    await this.authService.signUp(data);
+  @Post('/login')
+  async signIn(@Body(ValidationPipe) signInDto: signInDto) {
+    await this.authService.signIn(signInDto.email, signInDto.senha);
     return {
-      message: 'Cadastro realizado com sucesso',
+      message: 'Login efetuado com sucesso',
     };
   }
+
+  //@Post('/signup')
+  //async signUp(
+  //  @Body(ValidationPipe) data: CreateUserDto,
+  //  ): Promise<{ message: string }> {
+  //  await this.authService.signUp(data);
+  // return {
+  //   message: 'Cadastro realizado com sucesso',
+  // };
+  //}
 
   @Post('recover-password')
   async recoverPassword(
