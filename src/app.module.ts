@@ -14,9 +14,7 @@ import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: '.env.development.local',
-    }),
+    ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     MailerModule.forRoot(mailerConfig),
     PrismaModule,
     UserModule,
