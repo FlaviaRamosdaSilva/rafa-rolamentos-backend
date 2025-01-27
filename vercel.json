@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "framework": "nest",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "builds": [
     {
       "src": "dist/main.js",
@@ -11,6 +14,5 @@
       "src": "/(.*)",
       "dest": "dist/main.js"
     }
-  ],
-  "outputDirectory": "dist"
+  ]
 }
