@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { PrismaService } from './config/prisma.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,6 +26,16 @@ async function bootstrap() {
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
+
+  // Obtenha a instância do PrismaService injetada pelo NestJS
+  const prismaService = app.get(PrismaService);
+
+  try {
+    await prismaService.$connect(); // Conecte-se ao banco de dados
+    console.log('Database connected successfully!');
+  } catch (err) {
+    console.error('Error connecting to the database', err);
+  }
 
   const port = process.env.PORT || 3000;
   await app.listen(port);

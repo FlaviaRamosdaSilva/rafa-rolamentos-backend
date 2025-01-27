@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ClienteModule } from './cliente/cliente.module';
 import { mailerConfig } from './config/mailer.config';
 import { PrismaModule } from './config/prisma.module';
+import { PrismaService } from './config/prisma.service';
 import { EntradaModule } from './entrada/entrada.module';
 import { ProdutoModule } from './produto/produto.module';
 import { SaidaModule } from './saida/saida.module';
@@ -25,6 +26,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PrismaService],
+  exports: [PrismaService],
 })
 export class AppModule {}

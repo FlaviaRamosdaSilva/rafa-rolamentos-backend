@@ -1,4 +1,5 @@
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { RecoverPasswordDto } from './recover-password.dto';
 import { signInDto } from './signin.dto';
@@ -15,15 +16,15 @@ export class AuthController {
     };
   }
 
-  //@Post('/signup')
-  //async signUp(
-  //  @Body(ValidationPipe) data: CreateUserDto,
-  //  ): Promise<{ message: string }> {
-  //  await this.authService.signUp(data);
-  // return {
-  //   message: 'Cadastro realizado com sucesso',
-  // };
-  //}
+  @Post('/signup')
+  async signUp(
+    @Body(ValidationPipe) data: CreateUserDto,
+    ): Promise<{ message: string }> {
+    await this.authService.signUp(data);
+   return {
+     message: 'Cadastro realizado com sucesso',
+   };
+  }
 
   @Post('recover-password')
   async recoverPassword(
