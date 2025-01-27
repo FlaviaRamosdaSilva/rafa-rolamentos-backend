@@ -6,9 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "prisma generate && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "node dist/main.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -30,6 +30,10 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^8.1.0",
     "@prisma/client": "^5.22.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^5.0.0",
+    "@types/node": "^20.17.16",
+    "@types/nodemailer": "^6.4.17",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "class-transformer": "^0.5.1",
@@ -50,11 +54,7 @@
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
-    "@types/bcrypt": "^5.0.2",
-    "@types/express": "^5.0.0",
     "@types/jest": "^29.5.2",
-    "@types/node": "^20.3.1",
-    "@types/nodemailer": "^6.4.17",
     "@types/supertest": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
@@ -87,5 +87,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "engines": {
+    "node": ">=18.x"
   }
 }
