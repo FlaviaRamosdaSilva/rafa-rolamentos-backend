@@ -30,6 +30,8 @@ async function bootstrap() {
   // Obtenha a instância do PrismaService injetada pelo NestJS
   const prismaService = app.get(PrismaService);
 
+  console.log('Environment Variables:', process.env);
+
   try {
     await prismaService.$connect(); // Conecte-se ao banco de dados
     console.log('Database connected successfully!');
