@@ -59,7 +59,7 @@ export class ProdutoService {
     });
   }
   //Refatoração da lógica de procurar se o ID do produto existe
-  private async findProdutoById(id: string) {
+  async findProdutoById(id: string) {
     const produto = await this.prisma.produto.findUnique({
       where: { id_produto: id },
     });

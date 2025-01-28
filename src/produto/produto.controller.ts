@@ -26,6 +26,11 @@ export class ProdutoController {
     return this.produtoService.findAll();
   }
 
+  @Get(':id')
+  findProdutoById(@Param('id') id: string) {
+    return this.produtoService.findProdutoById(id);
+  }
+
   @Put(':id')
   update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
     return this.produtoService.update(id, updateProdutoDto);
