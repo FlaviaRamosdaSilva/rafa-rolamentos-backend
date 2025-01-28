@@ -9,11 +9,9 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/login')
-  async signIn(@Body(ValidationPipe) signInDto: signInDto) {
-    await this.authService.signIn(signInDto.email, signInDto.senha);
-    return {
-      message: 'Login efetuado com sucesso',
-    };
+  signIn(@Body(ValidationPipe) signInDto: signInDto) {
+    return this.authService.signIn(signInDto.email, signInDto.senha);
+   
   }
 
   @Post('/signup')
