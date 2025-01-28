@@ -12,6 +12,12 @@ export class ClienteController {
     return this.clienteService.create(createClienteDto);
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    console.log('ID recebido:', id);
+    return this.clienteService.findOne(id);
+  }
+
   @Get()
   findAll() {
     return this.clienteService.findAll();

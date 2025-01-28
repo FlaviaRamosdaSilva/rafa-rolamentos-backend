@@ -33,6 +33,13 @@ export class ClienteService {
     return await this.prisma.cliente.findMany();
   }
 
+  async findOne(id: string) {
+    const cliente = await this.prisma.cliente.findUnique({
+      where: { id_cliente: id }, // Certifique-se de que `id_cliente` é a coluna correta
+    });
+    return cliente;
+  }
+
   async updateById(id: string, updateClienteDto: UpdateClienteDto) {
     // Verifica se o cliente existe
     const clienteExist = await this.prisma.cliente.findUnique({
