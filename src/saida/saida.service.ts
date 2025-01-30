@@ -341,4 +341,17 @@ export class SaidaService {
 
     return pedidoFormatado;
   }
+
+  async getPedidosLog() {
+    return this.prisma.pedidoLog.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async getPedidoLog(pedidoId: string) {
+    return this.prisma.pedidoLog.findMany({
+      where: { pedidoId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
 }

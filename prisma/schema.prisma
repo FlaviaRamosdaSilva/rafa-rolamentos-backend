@@ -100,7 +100,7 @@ model estoqueLog {
   produtoId  String // Chave estrangeira (FK)
   Produto    produto  @relation(fields: [produtoId], references: [id_produto])
   quantidade Int
-  tipo       String // ENTRADA, SAIDA OU AJUSTE
+  tipo       String // ENTRADA, SAIDA, AJUSTE OU RETORNO
   descricao  String?
   createdAt  DateTime @default(now())
 }

@@ -12,9 +12,9 @@ export class AppService {
     const message = `Forgot your password? If you didn't forget your password, please ignore this email!`;
 
     this.mailService.sendMail({
-      from: 'Bio Link App <biolinkapp@gmail.com>',
+      from: 'Rolamentos Rafa <noreplay@rolamentosrafa.com>',
       to: '',
-      subject: `How to Send Emails with Nodemailer`,
+      subject: `Recuperação de senha`,
       text: message,
     });
   }

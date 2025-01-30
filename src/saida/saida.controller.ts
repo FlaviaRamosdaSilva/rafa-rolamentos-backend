@@ -79,4 +79,14 @@ export class SaidaController {
   findPedidoById(@Param('id') id: string) {
     return this.saidaService.findPedidoById(id);
   }
+
+  @Get('historico')
+  async getHistoricoPedidos() {
+    return this.saidaService.getPedidosLog();
+  }
+
+  @Get(':id/historico')
+  async getHistoricoPedido(@Param('id') id: string) {
+    return this.saidaService.getPedidoLog(id);
+  }
 }

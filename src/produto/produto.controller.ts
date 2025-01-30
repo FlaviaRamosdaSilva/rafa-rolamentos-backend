@@ -53,4 +53,9 @@ export class ProdutoController {
   remove(@Param('id') id: string) {
     return this.produtoService.delete(id);
   }
+
+  @Get(':id/historico')
+  async getHistoricoEstoque(@Param('id') id: string) {
+    return this.produtoService.getEstoqueLog(id);
+  }
 }

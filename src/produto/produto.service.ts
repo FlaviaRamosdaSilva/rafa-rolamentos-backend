@@ -253,4 +253,11 @@ export class ProdutoService {
       message: `Estoque do produto ${produtoExist.descricao_produto} alterado com sucesso`,
     };
   }
+
+  async getEstoqueLog(produtoId: string) {
+    return this.prisma.estoqueLog.findMany({
+      where: { produtoId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
 }
