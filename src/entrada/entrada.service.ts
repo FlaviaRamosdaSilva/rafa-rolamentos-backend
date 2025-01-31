@@ -84,4 +84,18 @@ export class EntradaService {
       },
     });
   }
+
+  async findById(id: string) {
+    // Verifica se o o id da compra existe
+    const compras = await this.prisma.compras.findUnique({
+      where: { id_compras: id },
+    });
+
+    if (!compras) {
+      throw new NotFoundException(
+        'Compra não localizada para alteração de status.',
+      );
+    }
+    return compras;
+  }
 }

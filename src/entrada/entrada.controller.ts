@@ -39,4 +39,9 @@ export class EntradaController {
   update(@Param('id') id: string, @Body() UpdateEntradaDto: UpdateEntradaDto) {
     return this.entradaService.updateById(id, UpdateEntradaDto);
   }
+
+  @Get(':id')
+  findById(@Param('id') id: string) {
+    return this.entradaService.findById(id);
+  }
 }
