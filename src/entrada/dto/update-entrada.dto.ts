@@ -4,7 +4,7 @@ import { CreateEntradaDto } from './create-entrada.dto';
 
 export class UpdateEntradaDto extends PartialType(CreateEntradaDto) {
   /**
- * Estatus da compra
+ * Status da compra
  * @examples: [
       'pedido efetuada',
       'pagamento efetuado, aguardando',
