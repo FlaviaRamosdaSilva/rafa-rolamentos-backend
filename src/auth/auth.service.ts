@@ -69,6 +69,8 @@ export class AuthService {
       data: { recoverToken },
     });
 
+    const recoveryLink = `https://rafa-rolamentos.vercel.app/users/reset-password/${recoverToken}`;
+
     // Configuração do email
     const mail = {
       to: user.email,
@@ -76,7 +78,7 @@ export class AuthService {
       subject: 'Recuperação de senha',
       template: 'recover-password',
       context: {
-        token: recoverToken, // O token é passado para o template do email
+        token: recoveryLink, // O token é passado para o template do email
       },
     };
 
