@@ -199,24 +199,36 @@ export class SaidaService {
     return saida;
   }
 
-  async findAll() {
+  async findAll(): Promise<PedidoComProdutos[]> {
     return await this.prisma.pedido.findMany({
       include: {
-        produtos: true,
+        produtos: {
+          include: {
+            Produto: {
+              select: { codigo_produto: true, descricao_produto: true },
+            },
+          },
+        },
       },
     });
   }
 
-  async findPedidoById(id: string) {
+  async findPedidoById(id: string): Promise<PedidoComProdutos> {
     const pedido = await this.prisma.pedido.findUnique({
       where: { id_pedido: id },
       include: {
-        produtos: true,
+        produtos: {
+          include: {
+            Produto: {
+              select: { codigo_produto: true, descricao_produto: true },
+            },
+          },
+        },
       },
     });
 
     if (!pedido) {
-      throw new NotFoundException('Produto não encontrado');
+      throw new NotFoundException('Pedido não encontrado');
     }
 
     return pedido;

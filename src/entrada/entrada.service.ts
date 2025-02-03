@@ -59,7 +59,11 @@ export class EntradaService {
   async findAll() {
     return await this.prisma.compras.findMany({
       include: {
-        itens: true, // Retorna os itens na resposta
+        itens: {
+          include: {
+            Produto: true, // Inclui todos os campos do produto relacionado
+          },
+        },
       },
     });
   }
@@ -92,7 +96,11 @@ export class EntradaService {
     const compras = await this.prisma.compras.findUnique({
       where: { id_compras: id },
       include: {
-        itens: true,
+        itens: {
+          include: {
+            Produto: true, // Inclui todos os campos do produto relacionado
+          },
+        },
       },
     });
 
