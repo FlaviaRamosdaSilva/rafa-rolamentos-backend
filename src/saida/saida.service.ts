@@ -200,12 +200,19 @@ export class SaidaService {
   }
 
   async findAll() {
-    return await this.prisma.pedido.findMany();
+    return await this.prisma.pedido.findMany({
+      include: {
+        produtos: true,
+      },
+    });
   }
 
   async findPedidoById(id: string) {
     const pedido = await this.prisma.pedido.findUnique({
       where: { id_pedido: id },
+      include: {
+        produtos: true,
+      },
     });
 
     if (!pedido) {

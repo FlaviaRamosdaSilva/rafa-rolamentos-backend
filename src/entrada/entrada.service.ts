@@ -64,6 +64,7 @@ export class EntradaService {
     });
   }
 
+  // Só altera status
   async updateById(id: string, UpdateEntradaDto: UpdateEntradaDto) {
     // Verifica se o o id da compra existe
     const EntradaExist = await this.prisma.compras.findUnique({
@@ -85,10 +86,14 @@ export class EntradaService {
     });
   }
 
+  // Abre os detalhes de apenas uma compra
   async findById(id: string) {
     // Verifica se o o id da compra existe
     const compras = await this.prisma.compras.findUnique({
       where: { id_compras: id },
+      include: {
+        itens: true,
+      },
     });
 
     if (!compras) {
