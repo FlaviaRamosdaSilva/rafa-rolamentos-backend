@@ -8,9 +8,11 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createUserDto: CreateUserDto) {
+    const hashedPassword = await bcrypt.hash(createUserDto.senha, 6);
     return await this.prisma.user.create({
       data: {
         ...createUserDto,
+        senha: hashedPassword,
       },
     });
   }
@@ -43,13 +45,13 @@ export class UserService {
     }
 
     // Hash da nova senha com BCRYPT
-    const hashedPassword = await bcrypt.hash(updatePasswordDto.newPassword, 10);
+    const hashedPassword = await bcrypt.hash(updatePasswordDto.newPassword, 6);
 
     // Atualize o usuário com a nova senha e remova o recoverToken
     return this.prisma.user.update({
       where: { id: user.id },
       data: {
-        senha: updatePasswordDto.newPassword,
+        senha: hashedPassword,
         recoverToken: null, // Limpa o token de recuperação após o uso
       },
     });
