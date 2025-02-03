@@ -9,10 +9,21 @@ async function bootstrap() {
 
   // Habilita CORS
   app.enableCors({
-    origin:
-      process.env.NODE_ENV === 'production'
-        ? 'https://rafa-rolamentos.vercel.app'
-        : 'http://localhost:3000',
+    origin: (origin, callback) => {
+      // Lista de origens permitidas
+      const allowedOrigins = [
+        'https://rafa-rolamentos.vercel.app',
+        'http://localhost:3000',
+      ];
+
+      // Se não houver origem (por exemplo, em requisições sem origem) ou se a origem estiver na lista, permite
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true, // se você estiver usando cookies ou outras credenciais
   });
 
   app.useGlobalPipes(
