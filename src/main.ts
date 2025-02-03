@@ -8,7 +8,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Habilita CORS
-  app.enableCors();
+  app.enableCors({
+    origin: 'https://rafa-rolamentos.vercel.app/',
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -23,15 +25,14 @@ async function bootstrap() {
     .setDescription('Sistema de estoque para uma loja de rolamentos')
     .setVersion('1.0')
     .addTag('Rolamentos')
-    .addBearerAuth()  // Se você usa autenticação JWT
-    .addServer('/')   // Adiciona o servidor base
+    .addBearerAuth() // Se você usa autenticação JWT
+    .addServer('/') // Adiciona o servidor base
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
 
   // Obtenha a instância do PrismaService injetada pelo NestJS
   const prismaService = app.get(PrismaService);
-
 
   try {
     await prismaService.$connect(); // Conecte-se ao banco de dados
