@@ -9,7 +9,7 @@ async function bootstrap() {
 
   // Habilita CORS
   app.enableCors({
-    origin: 'https://rafa-rolamentos.vercel.app/',
+    origin: 'https://rafa-rolamentos.vercel.app',
   });
 
   app.useGlobalPipes(
