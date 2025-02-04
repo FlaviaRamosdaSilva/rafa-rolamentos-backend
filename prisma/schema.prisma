@@ -34,6 +34,7 @@ model produto {
   codigo_produto     String
   descricao_produto  String
   fabricante         String
+  categoria          String
   custo              Decimal
   preco_distribuidor Decimal
   preco_lojista      Decimal

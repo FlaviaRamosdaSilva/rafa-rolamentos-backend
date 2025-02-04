@@ -33,6 +33,14 @@ export class CreateProdutoDto {
   fabricante: string;
 
   /**
+   * Nome do fabricante, marca do rolamento
+   * @example Nachi
+   */
+  @IsNotEmpty({ message: 'insira uma categoria para este produto' })
+  @IsString()
+  categoria: string;
+
+  /**
    * Custo do rolamento, quanto eu paguei por ele
    * @example 13.99
    */
