@@ -166,11 +166,20 @@ export class SaidaService {
       },
     });
 
+    if (saida.status_pedido === 'Pedido Finalizado e Pago') {
+      throw new BadRequestException(
+        'Pedido já está pago, não pode sofrer novas alterações',
+      );
+    }
     if (saida.status_pedido === 'Cancelado') {
       throw new BadRequestException(
         'Pedido já está cancelado, não pode sofrer novas alterações',
       );
     }
+    if (status === 'Aprovado' && saida.status_pedido !== 'Pendente')
+      throw new BadRequestException(
+        'Só é possível aprovar pedidos com status Pendente.',
+      );
 
     if (!saida) {
       throw new BadRequestException('Pedido não encontrado');
