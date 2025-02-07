@@ -180,6 +180,11 @@ export class SaidaService {
       throw new BadRequestException(
         'Só é possível aprovar pedidos com status Pendente.',
       );
+    if (saida.status_pedido === 'Pendente' && status !== 'Aprovado') {
+      throw new BadRequestException(
+        'Pedidos com status Pendente só podem ser alterados para Aprovado.',
+      );
+    }
 
     if (!saida) {
       throw new BadRequestException('Pedido não encontrado');

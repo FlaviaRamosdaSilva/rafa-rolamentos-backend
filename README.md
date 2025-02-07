@@ -99,8 +99,8 @@ O "Rafa Rolamentos" é um sistema de gerenciamento de estoque que serve para con
 
 - Figma do projeto: <a href= 'https://www.figma.com/design/MR7UL1tJslImeBFGAcEBdG/Pedido-Rolamento?node-id=203-17&t=XiomCHqB9gCZY0fU-0'>Rafa Rolamentos</a>
 - O logo também foi desenvolvido por mim.
-- O deploy do backend está na Vercel, site: <a>rafa-rolamentos-backend.vercel.app</a>
-- O deploy do frontend está na Vercel, site: <a>rafa-rolamentos.vercel.app
+- O deploy do backend está na Vercel, site: <a href='rafa-rolamentos-backend.vercel.app'>rafa-rolamentos-backend.vercel.app</a>
+- O deploy do frontend está na Vercel, site: <a href='rafa-rolamentos.vercel.app'>rafa-rolamentos.vercel.app
   </a>
 - Já o banco de dados (PostgresSQL) foi hospedado na Neon.tech, gratuitamente;
 
