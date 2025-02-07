@@ -166,6 +166,11 @@ export class SaidaService {
       },
     });
 
+    if (status === 'Pendente') {
+      throw new BadRequestException(
+        'Não é possível alterar para Pendente, escolha outro status ou cancele a venda',
+      );
+    }
     if (saida.status_pedido === 'Pedido Finalizado e Pago') {
       throw new BadRequestException(
         'Pedido já está pago, não pode sofrer novas alterações',
